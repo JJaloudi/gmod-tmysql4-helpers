@@ -1,6 +1,3 @@
-//Easy helper functions for the tmysql4 module.
-//Hope it's useful to you, cheers! 
-
 database = { 
 	_obj = db // This should be whatever your global reference to your database object is.
  } 
@@ -88,14 +85,14 @@ end
 
 database.Create = function(name, data, callback)
 	
-	_obj:Query("CREATE TABLE "..name.." ("..database.DataString(dataTbl)..")", callback)
+	database._obj:Query("CREATE TABLE "..name.." ("..database.DataString(dataTbl)..")", callback)
 		
 end
 
 database.Insert = function(name, data, callback)
 	data = database.KeyValue(data)
 	
-	_obj:Query("INSERT INTO " .. name .. " (" .. data.key .. ") VALUES (" .. data.value .. ")", callback)
+	database._obj:Query("INSERT INTO " .. name .. " (" .. data.key .. ") VALUES (" .. data.value .. ")", callback)
 end
 	
 database.Drop = function(name, callback)
@@ -105,19 +102,17 @@ database.Drop = function(name, callback)
 end
 	
 database.TableExists = function(name, callback)
-	_obj:Query("SELECT * FROM "..name, function( results )
-		PrintTable(results)
+	database._obj:Query("SELECT * FROM "..name, function( results )
 		callback(results[1].data != nil)
 	end)
 end 
 
 database.Where = function(name, req, data, callback) 
-	_obj:Query("SELECT " .. req .. " FROM " .. name .. " WHERE " .. database.QueryString(data), callback)
+	database._obj:Query("SELECT " .. req .. " FROM " .. name .. " WHERE " .. database.QueryString(data), callback)
 end
 	 
 database.Update = function(name, where, value, callback)		
-	print("UPDATE "..name.." SET ".. database.QueryString(value) .." WHERE ".. database.QueryString(where))
-	_obj:Query("UPDATE "..name.." SET ".. database.QueryString(value) .." WHERE ".. database.QueryString(where), callback)
+	database._obj:Query("UPDATE "..name.." SET ".. database.QueryString(value) .." WHERE ".. database.QueryString(where), callback)
 end
 
 database.Seed = function()
