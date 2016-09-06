@@ -135,3 +135,7 @@ database.Seed = function()
 		end
 	end)
 end
+
+hook.Add("Initialize", "Seeding", function()
+	database.Seed();	
+end)
